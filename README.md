@@ -5,5 +5,5 @@
 # 部署
 ## 在本地部署
 ```shell
-curl -sSL http://192.168.1.139/lipinyong/shiyanlou/raw/master/publish_shiyanshi.sh -o publish_shiyanlou.sh && bash publish_shiyanlou.sh
+curl -sSL http://192.168.1.139/lipinyong/shiyanlou/raw/master/publish_shiyanshi.sh -o publish_shiyanlou.sh && bash publish_shiyanlou.sh web,gsiot,sse-server,client
 ```
