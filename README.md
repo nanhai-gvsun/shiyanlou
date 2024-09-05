@@ -5,5 +5,10 @@
 # 部署
 ## 在本地部署
 ```shell
-curl -sSL http://192.168.1.139/lipinyong/shiyanlou/raw/master/publish_shiyanshi.sh -o publish_shiyanlou.sh && bash publish_shiyanlou.sh /home/gengshang/shiyanlou web,gsiot,sse-server,client,master,doc
+shfile="publish_shiyanshi.sh"&& curl -sSL http://192.168.1.139/lipinyong/shiyanlou/raw/master/$shfile -o $shfile && bash $shfile /home/gengshang/shiyanlou web,gsiot,sse-server,client,master,doc
+```
+
+## 批量提交
+```shell
+shfile="allpush.sh"&& curl -sSL http://192.168.1.139/lipinyong/shiyanlou/raw/master/$shfile -o $shfile && bash $shfile /home/gengshang/shiyanlou <commit-message>
 ```
