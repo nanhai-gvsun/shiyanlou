@@ -39,3 +39,22 @@ for BRANCH in "${BRANCHES[@]}"; do
     fi
   fi
 done
+
+# 如果分支 'web' 已克隆，则创建符号链接
+if [ -d "$DIR/web" ]; then
+  ln -sf "$DIR/web" /etc/nginx/html
+  if [ $? -eq 0 ]; then
+    echo "Symbolic link created: /etc/nginx/html -> $DIR/web"
+  else
+    echo "Failed to create symbolic link."
+  fi
+fi
+
+if [ -d "$DIR/sse-server" ]; then
+  ln -sf "$DIR/sse-server/etc/nginx/nginx.conf" /etc/nginx/nginx.conf
+  if [ $? -eq 0 ]; then
+    echo "Symbolic link created: /etc/nginx/nginx.conf -> $DIR/sse-server/etc/nginx/nginx.conf"
+  else
+    echo "Failed to create symbolic link."
+  fi
+fi
