@@ -49,7 +49,22 @@ if [ -d "$DIR/web" ]; then
     echo "Failed to create symbolic link."
   fi
 fi
-
+if [ -d "$DIR/doc" ]; then
+  ln -sf "$DIR/doc" $DIR/sse-server
+  if [ $? -eq 0 ]; then
+    echo "Symbolic link created: $DIR/sse-server/doc -> $DIR/doc"
+  else
+    echo "Failed to create symbolic link."
+  fi
+fi
+if [ -d "$DIR/gsiot" ]; then
+  ln -sf "$DIR/gsiot" $DIR/sse-server
+  if [ $? -eq 0 ]; then
+    echo "Symbolic link created: $DIR/sse-server/gsiot -> $DIR/gsiot"
+  else
+    echo "Failed to create symbolic link."
+  fi
+fi
 if [ -d "$DIR/sse-server" ]; then
   ln -sf "$DIR/sse-server/etc/nginx/nginx.conf" /etc/nginx/nginx.conf
   if [ $? -eq 0 ]; then
