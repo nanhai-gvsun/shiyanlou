@@ -67,6 +67,8 @@ if [ -d "$DIR/gsiot" ]; then
 fi
 if [ -d "$DIR/sse-server" ]; then
   ln -sf "$DIR/sse-server/etc/nginx/nginx.conf" /etc/nginx/nginx.conf
+  ln -sf "$DIR/sse-server/etc/nginx/cakey.pem" /etc/nginx/cakey.pem
+  ln -sf "$DIR/sse-server/etc/nginx/cacerts.pem" /etc/nginx/cacerts.pem
   if [ $? -eq 0 ]; then
     echo "Symbolic link created: /etc/nginx/nginx.conf -> $DIR/sse-server/etc/nginx/nginx.conf"
   else
