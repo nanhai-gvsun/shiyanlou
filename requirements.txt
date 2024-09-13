@@ -1,0 +1,6 @@
+paramiko
+bottle
+watchdog
+requests
+python-gitlab
+requests-oauthlib
