@@ -5,9 +5,10 @@
 # 部署
 ## 在本地部署
 ```shell
-shfile="publish_shiyanshi.sh" \
+path="/home/gengshang/shiyanlou" \
+&& shfile="publish_shiyanshi.sh" \
 && curl -sSL http://192.168.1.139/lipinyong/shiyanlou/raw/master/$shfile -o $shfile \
-&& bash $shfile /home/gengshang/shiyanlou web,gsiot,sse-server,client,master,doc
+&& bash $shfile $path web,gsiot,sse-server,client,master,doc
 ```
 
 ## 批量提交

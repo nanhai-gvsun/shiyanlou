@@ -7,6 +7,7 @@ path=$(cd "$(dirname "$0")"; pwd)
 commit="${1:+:$1}"
 
 # 获取分支信息
+cd $path
 branch=$(git branch | grep \* | cut -d ' ' -f2)
 # 构建git命令
 cmd="cd $path && git pull && git add -f . && git add -f * && git commit -m \"$(date +%Y-%m-%d)分支$branch自动提交$commit\" && git push"
