@@ -46,6 +46,7 @@ if [ -d "$DIR/web" ]; then
     ln -sf "$DIR/web" /data/data/com.termux/files/usr/etc/nginx/html
   else
     ln -sf "$DIR/web" /etc/nginx/html
+  fi
   if [ $? -eq 0 ]; then
     echo "Symbolic link created: /etc/nginx/html -> $DIR/web"
   else
