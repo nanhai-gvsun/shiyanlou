@@ -42,13 +42,17 @@ done
 
 # 如果分支 'web' 已克隆，则创建符号链接
 if [ -d "$DIR/web" ]; then
-  ln -sf "$DIR/web" /etc/nginx/html
+  if [ -d "/data/data/com.termux/files/usr" ]; then
+    ln -sf "$DIR/web" /data/data/com.termux/files/usr/etc/nginx/html
+  else
+    ln -sf "$DIR/web" /etc/nginx/html
   if [ $? -eq 0 ]; then
     echo "Symbolic link created: /etc/nginx/html -> $DIR/web"
   else
     echo "Failed to create symbolic link."
   fi
 fi
+
 if [ -d "$DIR/doc" ]; then
   ln -sf "$DIR/doc" $DIR/sse-server
   if [ $? -eq 0 ]; then
@@ -57,6 +61,7 @@ if [ -d "$DIR/doc" ]; then
     echo "Failed to create symbolic link."
   fi
 fi
+
 if [ -d "$DIR/gsiot" ]; then
   ln -sf "$DIR/gsiot" $DIR/sse-server
   if [ $? -eq 0 ]; then
@@ -65,13 +70,29 @@ if [ -d "$DIR/gsiot" ]; then
     echo "Failed to create symbolic link."
   fi
 fi
-if [ -d "$DIR/sse-server" ]; then
-  ln -sf "$DIR/sse-server/etc/nginx/nginx.conf" /etc/nginx/nginx.conf
-  ln -sf "$DIR/sse-server/etc/nginx/cakey.pem" /etc/nginx/cakey.pem
-  ln -sf "$DIR/sse-server/etc/nginx/cacerts.pem" /etc/nginx/cacerts.pem
-  if [ $? -eq 0 ]; then
-    echo "Symbolic link created: /etc/nginx/nginx.conf -> $DIR/sse-server/etc/nginx/nginx.conf"
-  else
-    echo "Failed to create symbolic link."
+
+# 检查是否在 Termux 环境中运行
+if [ -d "/data/data/com.termux/files/usr" ]; then
+  USR="/data/data/com.termux/files/usr"
+  if [ -d "$DIR/sse-server" ]; then
+    ln -sf "$DIR/sse-server/etc/nginx/nginx.conf" "$USR/etc/nginx/nginx.conf"
+    ln -sf "$DIR/sse-server/etc/nginx/cakey.pem" "$USR/etc/nginx/cakey.pem"
+    ln -sf "$DIR/sse-server/etc/nginx/cacerts.pem" "$USR/etc/nginx/cacerts.pem"
+    if [ $? -eq 0 ]; then
+      echo "Symbolic links created for Termux environment."
+    else
+      echo "Failed to create symbolic links for Termux environment."
+    fi
+  fi
+else
+  if [ -d "$DIR/sse-server" ]; then
+    ln -sf "$DIR/sse-server/etc/nginx/nginx.conf" /etc/nginx/nginx.conf
+    ln -sf "$DIR/sse-server/etc/nginx/cakey.pem" /etc/nginx/cakey.pem
+    ln -sf "$DIR/sse-server/etc/nginx/cacerts.pem" /etc/nginx/cacerts.pem
+    if [ $? -eq 0 ]; then
+      echo "Symbolic links created for standard environment."
+    else
+      echo "Failed to create symbolic links for standard environment."
+    fi
   fi
 fi
