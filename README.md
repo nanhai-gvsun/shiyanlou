@@ -6,6 +6,7 @@
 ## 在本地部署
 ```shell
 path="/home/gengshang/shiyanlou" \
+&& mkdir -p $path \
 && shfile="publish_shiyanshi.sh" \
 && curl -sSL http://192.168.1.139/lipinyong/shiyanlou/raw/master/$shfile -o $shfile \
 && bash $shfile $path web,gsiot,sse-server,client,master,doc

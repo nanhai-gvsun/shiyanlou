@@ -14,11 +14,7 @@ IFS=',' read -r -a BRANCHES <<< "$2"
 
 # 检查并创建主目录
 if [ ! -d "$DIR" ]; then
-  mkdir -p "$DIR"
-  if [ $? -ne 0 ]; then
-    echo "Failed to create directory '$DIR'."
-    exit 1
-  fi
+  mkdir -p "$DIR" || { echo "Failed to create directory '$DIR'."; exit 1; }
 fi
 
 # 切换到主目录
@@ -40,38 +36,29 @@ for BRANCH in "${BRANCHES[@]}"; do
   fi
 done
 
+# 创建符号链接的函数
+create_symlink() {
+  local target="$1"
+  local link_name="$2"
+  ln -sf "$target" "$link_name" && echo "Symbolic link created: $link_name -> $target" || echo "Failed to create symbolic link: $link_name"
+}
+
 # 如果分支 'web' 已克隆，则创建符号链接
 if [ -d "$DIR/web" ]; then
-  ln -sf "$DIR/web" /etc/nginx/html
-  if [ $? -eq 0 ]; then
-    echo "Symbolic link created: /etc/nginx/html -> $DIR/web"
-  else
-    echo "Failed to create symbolic link."
-  fi
+  create_symlink "$DIR/web" /etc/nginx/html
 fi
+
 if [ -d "$DIR/doc" ]; then
-  ln -sf "$DIR/doc" $DIR/sse-server
-  if [ $? -eq 0 ]; then
-    echo "Symbolic link created: $DIR/sse-server/doc -> $DIR/doc"
-  else
-    echo "Failed to create symbolic link."
-  fi
+  create_symlink "$DIR/doc" "$DIR/sse-server/doc"
 fi
+
 if [ -d "$DIR/gsiot" ]; then
-  ln -sf "$DIR/gsiot" $DIR/sse-server
-  if [ $? -eq 0 ]; then
-    echo "Symbolic link created: $DIR/sse-server/gsiot -> $DIR/gsiot"
-  else
-    echo "Failed to create symbolic link."
-  fi
+  create_symlink "$DIR/gsiot" "$DIR/sse-server/gsiot"
 fi
+
 if [ -d "$DIR/sse-server" ]; then
-  ln -sf "$DIR/sse-server/etc/nginx/nginx.conf" /etc/nginx/nginx.conf
-  ln -sf "$DIR/sse-server/etc/nginx/cakey.pem" /etc/nginx/cakey.pem
-  ln -sf "$DIR/sse-server/etc/nginx/cacerts.pem" /etc/nginx/cacerts.pem
-  if [ $? -eq 0 ]; then
-    echo "Symbolic link created: /etc/nginx/nginx.conf -> $DIR/sse-server/etc/nginx/nginx.conf"
-  else
-    echo "Failed to create symbolic link."
-  fi
+  create_symlink "$DIR/sse-server/etc" /etc/sse-server
+  create_symlink "$DIR/sse-server/etc/nginx/nginx.conf" /etc/nginx/nginx.conf
+  create_symlink "$DIR/sse-server/etc/nginx/cakey.pem" /etc/nginx/cakey.pem
+  create_symlink "$DIR/sse-server/etc/nginx/cacerts.pem" /etc/nginx/cacerts.pem
 fi

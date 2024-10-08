@@ -4,6 +4,8 @@ watchdog
 requests
 python-gitlab
 requests-oauthlib
+spidev==2.0
+pyserial==3.0.1
 pillow==2.0.0
 numpy==1.11.0
 pandas
