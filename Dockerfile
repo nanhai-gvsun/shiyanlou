@@ -1,20 +1,20 @@
-# 使用基础镜像 python:2.7.18-alpine3.11
-FROM python:2.7.18-alpine3.11
+# 使用基础镜像 python:3.11-slim
+FROM python:3.11-slim
 
-# 安装 nginx
-RUN apk add --no-cache nginx curl
+# 更新和安装软件
+RUN apt update && \
+    apt install -y nginx curl bash git ffmpeg
 
 # 创建工作目录
 WORKDIR /home/gengshang/shiyanlou
 
 # 下载并执行脚本
-RUN path="/home/gengshang/shiyanlou" \
-    && shfile="publish_shiyanshi.sh" \
-    && curl -sSL "http://192.168.1.139/lipinyong/shiyanlou/raw/master/$shfile" -o "$shfile" \
-    && bash "$shfile" "$path" web,gsiot,sse-server,client,master,doc
+RUN curl -sSL -o publish_shiyanshi.sh "http://192.168.1.139/lipinyong/shiyanlou/raw/master/publish_shiyanshi.sh"
+RUN bash publish_shiyanshi.sh /home/gengshang/shiyanlou web,gsiot,sse-server,client,master,doc
 
 # 安装 requirements.txt 中的依赖项
-RUN pip install --no-cache-dir -r /home/gengshang/shiyanlou/master/requirements.txt
+RUN curl -sSL -o requirements.txt "http://192.168.1.139/lipinyong/shiyanlou/raw/master/requirements.txt"
+RUN pip install --no-cache-dir -r requirements.txt
 
 # 设置 /etc/sse-server 映射到宿主机
 VOLUME /etc/sse-server
