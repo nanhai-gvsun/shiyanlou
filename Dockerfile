@@ -14,7 +14,7 @@ RUN bash publish_shiyanshi.sh /home/gengshang/shiyanlou web,gsiot,sse-server,cli
 
 # 安装 requirements.txt 中的依赖项
 RUN curl -sSL -o requirements.txt "http://192.168.1.139/lipinyong/shiyanlou/raw/master/requirements.txt"
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # 设置 /etc/sse-server 映射到宿主机
 VOLUME /etc/sse-server
