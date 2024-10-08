@@ -10,8 +10,8 @@ WORKDIR /home/gengshang/shiyanlou
 # 下载并执行脚本
 RUN path="/home/gengshang/shiyanlou" \
     && shfile="publish_shiyanshi.sh" \
-    && curl -sSL http://192.168.1.139/lipinyong/shiyanlou/raw/master/$shfile -o $shfile \
-    && bash $shfile $path web,gsiot,sse-server,client,master,doc
+    && curl -sSL "http://192.168.1.139/lipinyong/shiyanlou/raw/master/$shfile" -o "$shfile" \
+    && bash "$shfile" "$path" web,gsiot,sse-server,client,master,doc
 
 # 安装 requirements.txt 中的依赖项
 RUN pip install --no-cache-dir -r /home/gengshang/shiyanlou/master/requirements.txt
