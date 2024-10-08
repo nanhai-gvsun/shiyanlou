@@ -2,7 +2,7 @@
 FROM python:2.7.18-alpine3.11
 
 # 安装 nginx
-RUN apk add --no-cache nginx
+RUN apk add --no-cache nginx curl
 
 # 创建工作目录
 WORKDIR /home/gengshang/shiyanlou
