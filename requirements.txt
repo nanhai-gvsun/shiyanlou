@@ -5,7 +5,5 @@ requests
 python-gitlab
 requests-oauthlib
 pillow==2.0.0
-matplotlib
 pytz
-beaker
 schedule
