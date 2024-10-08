@@ -6,7 +6,6 @@ python-gitlab
 requests-oauthlib
 pillow==2.0.0
 numpy==1.11.0
-pandas
 matplotlib
 pytz
 beaker
