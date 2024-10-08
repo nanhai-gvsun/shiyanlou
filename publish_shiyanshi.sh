@@ -58,6 +58,7 @@ fi
 
 if [ -d "$DIR/sse-server" ]; then
   create_symlink "$DIR/sse-server/etc" /etc/sse-server
+  create_symlink /etc/nginx/html /etc/sse-server/web
   create_symlink "$DIR/sse-server/etc/nginx/nginx.conf" /etc/nginx/nginx.conf
   create_symlink "$DIR/sse-server/etc/nginx/cakey.pem" /etc/nginx/cakey.pem
   create_symlink "$DIR/sse-server/etc/nginx/cacerts.pem" /etc/nginx/cacerts.pem
