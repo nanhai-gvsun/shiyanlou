@@ -1,0 +1,6 @@
+docker run -d \
+  --name sse-server-container \
+  -p 80:80 \
+  -p 9527:9527 \
+  -v /home/gengshang/nas/apps/sse-server/config:/etc/sse-server \
+  sse-server:v0.9

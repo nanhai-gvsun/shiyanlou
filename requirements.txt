@@ -4,5 +4,7 @@ watchdog
 requests
 python-gitlab
 requests-oauthlib
+pillow==2.0.0
 pytz
+beaker
 schedule

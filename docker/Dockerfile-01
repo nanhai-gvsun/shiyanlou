@@ -1,0 +1,31 @@
+# 使用基础镜像 python:3.11-slim
+FROM python:3.11-slim
+
+# 更新和安装软件
+RUN apt update && \
+    apt install -y nginx curl bash git ffmpeg
+
+# 创建工作目录
+WORKDIR /home/gengshang/shiyanlou
+COPY . /home/gengshang/shiyanlou/master
+
+# 下载并执行脚本
+RUN bash /home/gengshang/shiyanlou/master/publish_shiyanshi.sh /home/gengshang/shiyanlou web,gsiot,sse-server,client,doc
+
+# 安装pip组件
+# RUN pip install -r /home/gengshang/shiyanlou/master/requirements.txt 
+RUN pip install bottle
+RUN pip install watchdog
+RUN pip install requests
+RUN pip install python-gitlab
+RUN pip install schedule
+RUN pip install pytz
+
+# 设置 /etc/sse-server 映射到宿主机
+VOLUME /etc/sse-server
+
+# 开放 80 和 443 端口
+EXPOSE 80 9527
+
+# 运行命令
+CMD ["python","/home/gengshang/shiyanlou/sse-server/app.py"]
