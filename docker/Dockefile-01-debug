@@ -12,7 +12,6 @@ RUN apt update && \
     apt clean && rm -rf /var/lib/apt/lists/*
 
 # 安装pip组件
-# RUN pip install -r /home/gengshang/shiyanlou/master/requirements.txt 
 RUN pip install bottle
 RUN pip install watchdog
 RUN pip install requests

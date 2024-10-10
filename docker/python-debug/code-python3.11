@@ -4,15 +4,23 @@ FROM linuxserver/code-server:4.90.3
 # 使用 root 用户执行命令
 USER root
 
-# 安装python3.11和pip
-RUN apt-get update && \
-    apt-get install -y python3.11 python3.11-distutils && \
-    curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11 && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# 安装必要的工具
+RUN apt update && \
+    apt install -y nginx curl bash git ffmpeg software-properties-common build-essential libssl-dev libbz2-dev \
+    libreadline-dev libsqlite3-dev wget curl llvm libgdbm-dev libncurses5-dev \
+    libncursesw5-dev xz-utils tk-dev libffi-dev zlib1g-dev python3 python3-pip && \
+    apt clean && rm -rf /var/lib/apt/lists/*
+
+# 安装pip组件
+RUN pip install bottle
+RUN pip install watchdog
+RUN pip install requests
+RUN pip install python-gitlab
+RUN pip install schedule
+RUN pip install pytz
 
 # 设置 /home/gengshang 映射到宿主机
-VOLUME /home/gengshang
+VOLUME /home/gengshang 
 
 # 开放 8443 端口
 EXPOSE 8443
@@ -37,3 +45,4 @@ ENV PASSWORD=gengshang \
 
 # 设置入口点
 ENTRYPOINT ["/init"]
+
