@@ -1,16 +1,27 @@
-# 使用基础镜像 
-FROM lblrelease/code-server-python3:v1.0
+# 使用 code-server 作为基础镜像
+FROM linuxserver/code-server:4.90.3
 
-# 更新和安装软件
+# 使用 root 用户执行命令
+USER root
+
+# 安装必要的工具
 RUN apt update && \
-    apt install -y nginx curl bash git ffmpeg
+    apt install -y nginx curl bash git ffmpeg software-properties-common build-essential libssl-dev libbz2-dev \
+    libreadline-dev libsqlite3-dev wget curl llvm libgdbm-dev libncurses5-dev \
+    libncursesw5-dev xz-utils tk-dev libffi-dev zlib1g-dev python3 python3-pip && \
+    apt clean && rm -rf /var/lib/apt/lists/*
 
 # 创建工作目录
 WORKDIR /home/gengshang/shiyanlou
 COPY . /home/gengshang/shiyanlou/master
 
 # 下载并执行脚本
-RUN bash /home/gengshang/shiyanlou/master/publish_shiyanshi.sh /home/gengshang/shiyanlou web,gsiot,sse-server,client,doc
+RUN bash /home/gengshang/shiyanlou/master/publish_shiyanshi.sh /home/gengshang/shiyanlou web,gsiot,sse-server
+
+# 删除.git目录
+RUN rm -rf /home/gengshang/shiyanlou/gsiot/.git
+RUN rm -rf /home/gengshang/shiyanlou/web/.git
+RUN rm -rf /home/gengshang/shiyanlou/sse-server/.git
 
 # 安装pip组件
 # RUN pip install -r /home/gengshang/shiyanlou/master/requirements.txt 
@@ -24,8 +35,6 @@ RUN pip install pytz
 # 设置 /etc/sse-server 映射到宿主机
 VOLUME /etc/sse-server
 
-# 开放 80 和 443 端口
-EXPOSE 80 9527
 
 # 运行命令
 CMD ["python","/home/gengshang/shiyanlou/sse-server/app.py"]
