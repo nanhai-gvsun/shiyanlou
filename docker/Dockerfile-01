@@ -10,7 +10,12 @@ WORKDIR /home/gengshang/shiyanlou
 COPY . /home/gengshang/shiyanlou/master
 
 # 下载并执行脚本
-RUN bash /home/gengshang/shiyanlou/master/publish_shiyanshi.sh /home/gengshang/shiyanlou web,gsiot,sse-server,client,doc
+RUN bash /home/gengshang/shiyanlou/master/publish_shiyanshi.sh /home/gengshang/shiyanlou web,gsiot,sse-server
+
+# 删除.git目录
+RUN rm -rf /home/gengshang/shiyanlou/gsiot/.git
+RUN rm -rf /home/gengshang/shiyanlou/web/.git
+RUN rm -rf /home/gengshang/shiyanlou/sse-server/.git
 
 # 安装pip组件
 # RUN pip install -r /home/gengshang/shiyanlou/master/requirements.txt 
