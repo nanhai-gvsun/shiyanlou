@@ -53,7 +53,17 @@ start_container() {
         --restart always \
         $dockername
 }
+# 停止 Docker 容器
+stop_container() {
+    echo "停止 Docker 容器: $name"
+    docker ps -a | grep "$dockername" | awk '{print $1}' | xargs docker stop
+}
 
+# 删除 Docker 容器
+remove_container() {
+    echo "删除 Docker 容器: $name"
+    docker ps -a | grep "$dockername" | awk '{print $1}' | xargs docker rm
+}
 # 检查命令参数
 if [ "$#" -gt 0 ]; then
      case $cmd in
@@ -75,18 +85,6 @@ if [ "$#" -gt 0 ]; then
             ;;
     esac
 fi
-
-# 停止 Docker 容器
-stop_container() {
-    echo "停止 Docker 容器: $name"
-    docker ps -a | grep "$dockername" | awk '{print $1}' | xargs docker stop
-}
-
-# 删除 Docker 容器
-remove_container() {
-    echo "删除 Docker 容器: $name"
-    docker ps -a | grep "$dockername" | awk '{print $1}' | xargs docker rm
-}
 
 # 主菜单
 while true; do
