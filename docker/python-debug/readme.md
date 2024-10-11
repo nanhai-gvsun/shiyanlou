@@ -15,8 +15,9 @@ docker build -t $imagename . -f &file
 
 ## 启动docker
 ```bash
-password="gengshang" && username="" && dockername="code-server-python-2.7.18:v1.0" && \
-name="my-python-container" \
+password="gengshang" && username="guards" && \
+dockername="code-server-python-2.7.18:v1.0" && \
+name="my-code-python-ide" &&\
 && docker run -d \
     --name $name \
     --privileged \
@@ -39,7 +40,7 @@ name="my-python-container" \
 说明：
 - 这个命令主要是用在树莓派环境下，使用了特权模式，挂载了硬件模块
 - ${password}：分配的临时密码，默认为gengshang
-- ${username}：使用者工号，便于分隔管理各学生的实验成果
+- ${username}：使用者工号对应的项目分支号在本地的克隆地址，便于分隔管理各学生的实验成果
 - ${dockername}：code-server-python2:2.7.18
 
 ## 停止和删除容器
@@ -55,7 +56,7 @@ dockername="code-server-python-2.7.18:v1.0" && docker ps -a | grep "${dockername
 
 ## 完整命令
 ```bash
-password="gengshang" && username="guards" && dockername="code-server-python-2.7.18-arm:v1.0" && docker ps -a | grep "$dockername"| awk '{print $1}' |xargs docker stop && docker ps -a | grep "$dockername"| awk '{print $1}' |xargs docker rm && docker run -d --name my-python2-container --privileged --device /dev/ttyAMA0 --device /dev/ttyUSB0 --device /dev/ttyUSB1 --device /dev/spidev0.0 --device /dev/spidev0.1 --device /dev/gpiomem -p 8443:8443 -v /home/gengshang:/home/gengshang -v /etc/network:/host/network -v /sys:/host/sys -v /etc/resolv.conf:/host/resolv.conf -e PASSWORD=$password -e DEFAULT_WORKSPACE=/home/gengshang/$username --restart always $dockername
+password="gengshang" && username="guards" && dockername="code-server-python-2.7.18-arm:v1.0" && name="my-code-python-ide"&& docker ps -a | grep "$dockername"| awk '{print $1}' |xargs docker stop && docker ps -a | grep "$dockername"| awk '{print $1}' |xargs docker rm && docker run -d --name $name --privileged --device /dev/ttyAMA0 --device /dev/ttyUSB0 --device /dev/ttyUSB1 --device /dev/spidev0.0 --device /dev/spidev0.1 --device /dev/gpiomem -p 8443:8443 -v /home/gengshang:/home/gengshang -v /etc/network:/host/network -v /sys:/host/sys -v /etc/resolv.conf:/host/resolv.conf -e PASSWORD=$password -e DEFAULT_WORKSPACE=/home/gengshang/$username --restart always $dockername
 ```
 
 
