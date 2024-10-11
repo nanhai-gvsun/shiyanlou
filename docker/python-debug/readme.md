@@ -4,7 +4,7 @@ platform="arm" && \
 version="v1.0" && \
 pythonVersion="2.7.18" && \
 file="docker/code-python-$pythonVersion" && \
-imagename="code-python-$platform:$version" && \
+imagename="code-python-$pythonVersion-$platform:$version" && \
 docker build -t $imagename . -f &file
 ```
 说明：
@@ -15,8 +15,8 @@ docker build -t $imagename . -f &file
 
 ## 启动docker
 ```bash
-password="gengshang" && username="" && dockername="code-server-python2:2.7.18" && \
-name="my-python2-container" \
+password="gengshang" && username="" && dockername="code-server-python-2.7.18:v1.0" && \
+name="my-python-container" \
 && docker run -d \
     --name $name \
     --privileged \
@@ -45,9 +45,9 @@ name="my-python2-container" \
 ## 停止和删除容器
 ``` bash
 # 停止运行容器
-docker ps -a | grep "${dockername}"| awk '{print $1}' |xargs docker stop
+dockername="code-server-python-2.7.18:v1.0" && docker ps -a | grep "${dockername}"| awk '{print $1}' |xargs docker stop
 # 删除容器
-docker ps -a | grep "${dockername}"| awk '{print $1}' |xargs docker rm
+dockername="code-server-python-2.7.18:v1.0" && docker ps -a | grep "${dockername}"| awk '{print $1}' |xargs docker rm
 ```
 说明：
 - 运行的容器需要先停止再删除
@@ -55,7 +55,7 @@ docker ps -a | grep "${dockername}"| awk '{print $1}' |xargs docker rm
 
 ## 完整命令
 ```bash
-password="gengshang" && username="guards" && dockername="code-server-python2:2.7.18" && docker ps -a | grep "$dockername"| awk '{print $1}' |xargs docker stop && docker ps -a | grep "$dockername"| awk '{print $1}' |xargs docker rm && docker run -d --name my-python2-container --privileged --device /dev/ttyAMA0 --device /dev/ttyUSB0 --device /dev/ttyUSB1 --device /dev/spidev0.0 --device /dev/spidev0.1 --device /dev/gpiomem -p 8443:8443 -v /home/gengshang:/home/gengshang -v /etc/network:/host/network -v /sys:/host/sys -v /etc/resolv.conf:/host/resolv.conf -e PASSWORD=$password -e DEFAULT_WORKSPACE=/home/gengshang/$username --restart always $dockername
+password="gengshang" && username="guards" && dockername="code-server-python-2.7.18-arm:v1.0" && docker ps -a | grep "$dockername"| awk '{print $1}' |xargs docker stop && docker ps -a | grep "$dockername"| awk '{print $1}' |xargs docker rm && docker run -d --name my-python2-container --privileged --device /dev/ttyAMA0 --device /dev/ttyUSB0 --device /dev/ttyUSB1 --device /dev/spidev0.0 --device /dev/spidev0.1 --device /dev/gpiomem -p 8443:8443 -v /home/gengshang:/home/gengshang -v /etc/network:/host/network -v /sys:/host/sys -v /etc/resolv.conf:/host/resolv.conf -e PASSWORD=$password -e DEFAULT_WORKSPACE=/home/gengshang/$username --restart always $dockername
 ```
 
 
