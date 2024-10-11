@@ -20,14 +20,7 @@ version="$1"
 pythonVersion="$2"
 username="$3"
 password="$4"
-# 检查 username 是否等于 "*"
-if [ "$password" = "*" ]; then
-    password=""
-fi
-# 检查 username 是否等于 "*"
-if [ "$username" = "*" ]; then
-    username=""
-fi
+
 dockername="code-server-python-$pythonVersion:$version"
 name="my-code-python-ide"
 

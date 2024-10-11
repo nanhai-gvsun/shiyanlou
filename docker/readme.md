@@ -80,14 +80,7 @@ version="$1"
 pythonVersion="$2"
 username="$3"
 password="$4"
-# 检查 username 是否等于 "*"
-if [ "$password" = "*" ]; then
-    password=""
-fi
-# 检查 username 是否等于 "*"
-if [ "$username" = "*" ]; then
-    username=""
-fi
+
 dockername="code-server-python-$pythonVersion:$version"
 name="my-code-python-ide"
 
@@ -195,5 +188,5 @@ done
   bash manage_docker.sh v1.0 2.7.18 guards gengshang create
 
   # username和password支持*，代表参数的值为空
-  bash manage_docker.sh v1.0 2.7.18 * * create
+  bash manage_docker.sh v1.0 2.7.18 '' '' create
   ```
