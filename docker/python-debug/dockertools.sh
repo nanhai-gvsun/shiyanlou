@@ -67,6 +67,7 @@ remove_container() {
 # 主菜单
 while true; do
     echo "平台: $platform"
+    echo "python版本：$pythonVersion"
     echo "选择操作:"
     echo "1. 创建 Docker 镜像"
     echo "2. 启动 Docker 容器"
