@@ -13,7 +13,9 @@ if [ "$#" -lt 4 ]; then
     exit 1
 fi
 
+
 # 从参数获取变量
+cmd="${5:-}"  # 如果有第五个参数，则赋值给cmd，否则cmd为空
 version="$1"
 pythonVersion="$2"
 username="$3"
@@ -51,6 +53,28 @@ start_container() {
         --restart always \
         $dockername
 }
+
+# 检查命令参数
+if [ "$#" -gt 0 ]; then
+     case $cmd in
+        create)
+            create_image
+            exit 0
+            ;;
+        start)
+            start_container
+            exit 0
+            ;;
+        stop)
+            stop_container
+            exit 0
+            ;;
+        remove)
+            remove_container
+            exit 0
+            ;;
+    esac
+fi
 
 # 停止 Docker 容器
 stop_container() {
