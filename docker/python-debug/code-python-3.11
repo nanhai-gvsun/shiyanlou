@@ -26,8 +26,7 @@ VOLUME /home/gengshang
 EXPOSE 8443
 
 # 设置环境变量
-ENV PASSWORD=gengshang \
-    LANG=en_US.UTF-8 \
+ENV LANG=en_US.UTF-8 \
     S6_VERBOSITY=1 \
     S6_STAGE2_HOOK=/docker-mods \
     PUID=1000 \
