@@ -25,6 +25,7 @@ name="my-code-python-ide"
 # 创建 Docker 镜像
 create_image() {
     echo "创建 Docker 镜像: $dockername"
+    echo "docker build -t $dockername -f docker/code-python-$pythonVersion ."
     docker build -t $dockername -f docker/code-python-$pythonVersion .
 }
 
