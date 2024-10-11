@@ -74,15 +74,20 @@ if [ "$#" -lt 4 ]; then
     echo "用法: $0 <version> <pythonVersion> <username> <password>"
     exit 1
 fi
-
-
 # 从参数获取变量
 cmd="${5:-}"  # 如果有第五个参数，则赋值给cmd，否则cmd为空
 version="$1"
 pythonVersion="$2"
 username="$3"
 password="$4"
-
+# 检查 username 是否等于 "*"
+if [ "$password" = "*" ]; then
+    password=""
+fi
+# 检查 username 是否等于 "*"
+if [ "$username" = "*" ]; then
+    username=""
+fi
 dockername="code-server-python-$pythonVersion:$version"
 name="my-code-python-ide"
 
@@ -188,4 +193,7 @@ done
 
   # 使用指定命令
   bash manage_docker.sh v1.0 2.7.18 guards gengshang create
+
+  # username和password支持*，代表参数的值为空
+  bash manage_docker.sh v1.0 2.7.18 * * create
   ```
