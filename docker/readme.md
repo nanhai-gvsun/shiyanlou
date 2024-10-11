@@ -61,7 +61,7 @@ password="gengshang" && username="guards" && dockername="code-server-python-2.7.
 改进命令就可以编写一个带参数的脚本，直接启动或停止重新部署
 ```bash
 #!/bin/bash
-
+# 
 # 自动判断平台
 if [[ "$(uname -m)" == "arm"* ]]; then
     platform="arm"
@@ -75,7 +75,9 @@ if [ "$#" -lt 4 ]; then
     exit 1
 fi
 
+
 # 从参数获取变量
+cmd="${5:-}"  # 如果有第五个参数，则赋值给cmd，否则cmd为空
 version="$1"
 pythonVersion="$2"
 username="$3"
@@ -87,7 +89,8 @@ name="my-code-python-ide"
 # 创建 Docker 镜像
 create_image() {
     echo "创建 Docker 镜像: $dockername"
-    docker build -t $dockername -f docker/code-python-$pythonVersion .
+    echo "docker build -t $dockername -f code-python-$pythonVersion ."
+    docker build -t $dockername -f code-python-$pythonVersion .
 }
 
 # 启动 Docker 容器
@@ -113,6 +116,28 @@ start_container() {
         $dockername
 }
 
+# 检查命令参数
+if [ "$#" -gt 0 ]; then
+     case $cmd in
+        create)
+            create_image
+            exit 0
+            ;;
+        start)
+            start_container
+            exit 0
+            ;;
+        stop)
+            stop_container
+            exit 0
+            ;;
+        remove)
+            remove_container
+            exit 0
+            ;;
+    esac
+fi
+
 # 停止 Docker 容器
 stop_container() {
     echo "停止 Docker 容器: $name"
@@ -128,6 +153,7 @@ remove_container() {
 # 主菜单
 while true; do
     echo "平台: $platform"
+    echo "python版本：$pythonVersion"
     echo "选择操作:"
     echo "1. 创建 Docker 镜像"
     echo "2. 启动 Docker 容器"
@@ -156,7 +182,12 @@ done
   - `<pythonVersion>`: Python 版本
   - `<username>`: 用户名
   - `<password>`: 密码
+  - `<cmd>`:指令(可选)，取值create、start、stop、remove
 - **用法**: 运行脚本时，您可以使用以下命令：
   ```bash
+  # 使用命令菜单
   bash manage_docker.sh v1.0 2.7.18 guards gengshang
+
+  # 使用指定命令
+  bash manage_docker.sh v1.0 2.7.18 guards gengshang create
   ```
